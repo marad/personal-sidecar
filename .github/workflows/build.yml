@@ -22,12 +22,23 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.2
+        with:
+          java-version: 14
+
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, world!
+        run: ./gradlew build test
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.1.4
+        with:
+          # Artifact name
+          name: obsidian-startpage
+          path: obsidian-startpage/generated/obsidian-startpage.jar
+      Available Options:
+        warn: Output a warning but do not fail the action
+        error: Fail the action with an error message
+        ignore: Do not output any warnings or errors, the action does not fail
+          if-no-files-found: # optional, default is warn
