@@ -1,0 +1,7 @@
+#
+#   SIDECAR STARTPAGE
+#
+-exportcontents: gh.marad.sidecar.obsidianstartpage
+--dsannotations: *
+Bundle-SymbolicName: obsidian-startpage
+Bundle-Version: 0.0.1.alpha

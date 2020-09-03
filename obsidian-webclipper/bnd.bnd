@@ -1,0 +1,7 @@
+#
+#   SIDECAR WEBCLIPPER
+#
+-exportcontents: gh.marad.sidecar.obsidianwebclipper.*
+-dsannotations: *
+Bundle-SymbolicName: obsidian-webclipper
+Bundle-Version: 0.0.1.alpha

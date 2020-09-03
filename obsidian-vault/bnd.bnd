@@ -1,0 +1,8 @@
+#
+#   SIDECAR MARKDOWN
+#
+-exportcontents: gh.marad.sidecar.obsidianvault.*
+-dsannotations: *
+Bundle-SymbolicName: obsidian-vault
+Bundle-Version: 0.0.1.alpha
+#Import-Package: !gh.marad.sidecar.obsidianvault.*, *
