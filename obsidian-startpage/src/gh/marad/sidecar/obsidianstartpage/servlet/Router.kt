@@ -1,4 +1,4 @@
-package gh.marad.sidecar.obsidianstartpage
+package gh.marad.sidecar.obsidianstartpage.servlet
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -37,7 +37,7 @@ data class Route(
 
 class Router {
     private val routes = mutableListOf<Route>()
-    private var notFoundHandler: Handler = {_, response ->
+    private var notFoundHandler: Handler = { _, response ->
         response.addHeader("content-type", "text/plain")
         response.writer.apply {
             write("Not found")

@@ -2,6 +2,9 @@
 #   SIDECAR STARTPAGE
 #
 -exportcontents: gh.marad.sidecar.obsidianstartpage
---dsannotations: *
+-dsannotations: *
 Bundle-SymbolicName: obsidian-startpage
 Bundle-Version: 0.0.1.alpha
+Import-Package: \
+    com.fasterxml.jackson.jaxrs.json,\
+    *

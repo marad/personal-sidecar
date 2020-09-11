@@ -1,4 +1,4 @@
-import gh.marad.sidecar.obsidianstartpage.*
+import gh.marad.sidecar.obsidianstartpage.servlet.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import kotlin.test.Test
