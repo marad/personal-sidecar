@@ -1,5 +1,0 @@
-#
-# Plugin gradle setup
-#
--plugin.gradle = aQute.bnd.plugin.gradle.GradlePlugin
-

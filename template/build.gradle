@@ -4,7 +4,8 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
 
-group = 'io.github.marad.gradle-test'
+
+group = 'gh.marad.sidecar.template'
 version = '0.0.1'
 
 repositories {

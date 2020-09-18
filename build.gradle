@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.4.0'
+    id 'biz.aQute.bnd.builder'
 }
 
 repositories {
@@ -8,12 +9,11 @@ repositories {
     jcenter()
 }
 
-if (plugins.hasPlugin('biz.aQute.bnd.workspace')) {
-    println "### Project ${name} has BndWorkspacePlugin applied"
-}
-
 subprojects {
-    if (plugins.hasPlugin('biz.aQute.bnd')) {
-        println "### Project ${name} has BndPlugin applied"
+    apply plugin: 'biz.aQute.bnd.builder'
+
+    if (plugins.hasPlugin('biz.aQute.bnd.builder')) {
+        println "### Project ${name} has bnd builder plugin applied"
     }
+
 }

@@ -1,0 +1,6 @@
+#
+#   TEMPLATE
+#   This is an example of a bundle subproject
+#
+Bundle-SymbolicName: template
+Bundle-Version: 0.0.1.alpha
