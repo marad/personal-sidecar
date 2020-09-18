@@ -9,7 +9,7 @@ import org.osgi.service.component.annotations.Activate
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 import org.osgi.service.component.annotations.ServiceScope
-import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardServletPattern
+//import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardServletPattern
 import javax.servlet.Servlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse
             "servlet-name=Startpage",
         ],
 )
-@HttpWhiteboardServletPattern("/startpage")
+//@HttpWhiteboardServletPattern("/startpage")
 class Server : HttpServlet(), Servlet {
 
     val log = org.slf4j.LoggerFactory.getLogger(Server::class.java)
