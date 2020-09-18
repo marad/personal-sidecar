@@ -1,20 +1,23 @@
-include(":hello")
+pluginManagement {
+    plugins {
+        id 'biz.aQute.bnd.builder' version '5.2.0'
+    }
+}
+
+include(":template")
 include(":obsidian-vault")
 include(":obsidian-startpage")
 include(":obsidian-webclipper")
 
-
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath bnd_plugin
+        classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:5.1.2"
     }
 }
 
-/*
- * Determine the Bnd project folders, include them in the Gradle build,
- * and apply the 'biz.aQute.bnd' Gradle plugin to those projects.
- */
-apply plugin: 'biz.aQute.bnd.workspace'

@@ -1,4 +1,4 @@
-package io.github.marad.sidecar.hello
+package gh.marad.sidecar.hello
 
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
