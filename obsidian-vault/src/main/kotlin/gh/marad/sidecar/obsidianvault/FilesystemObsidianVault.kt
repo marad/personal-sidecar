@@ -3,31 +3,16 @@ package gh.marad.sidecar.obsidianvault
 import gh.marad.sidecar.obsidianvault.app.Configuration
 import gh.marad.sidecar.obsidianvault.app.DailyNote
 import gh.marad.sidecar.obsidianvault.app.Inbox
-import org.osgi.service.cm.ConfigurationAdmin
-import org.osgi.service.component.annotations.Activate
-import org.osgi.service.component.annotations.Component
-import org.osgi.service.component.annotations.Reference
 import org.slf4j.LoggerFactory
-import java.lang.RuntimeException
 import java.nio.file.Files
-import java.nio.file.Paths
 import java.time.LocalDate
 
 
-@Component(service = [ObsidianVault::class], immediate = true)
-class FilesystemObsidianVault : ObsidianVault {
-    @Reference
-    private lateinit var configAdmin: ConfigurationAdmin
-    private lateinit var config: Configuration
+internal class FilesystemObsidianVault(private val config: Configuration) : ObsidianVault {
     private val log = LoggerFactory.getLogger(FilesystemObsidianVault::class.java)
 
-    @Activate
-    fun setup() {
-        val configuration = configAdmin.getConfiguration(Constants.CONFIG_PID)
-        val vaultPath = (configuration.properties["path"]
-                ?: throw RuntimeException("Missing path to obsidian vault")) as String
-        config = Configuration(Paths.get(vaultPath))
-        log.info("Started obsidian vault with path $vaultPath")
+    init {
+        log.info("Started obsidian vault with path ${config.vaultPath}")
     }
 
     override fun dailyNoteExists(day: LocalDate): Boolean {

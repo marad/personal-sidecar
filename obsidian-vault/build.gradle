@@ -14,13 +14,14 @@ repositories {
 }
 
 dependencies {
-    runtimeOnly 'org.jetbrains.kotlin:kotlin-osgi-bundle:1.4.0'
-    compileOnly 'org.osgi:org.osgi.core:6.0.0'
+    implementation 'org.jetbrains.kotlin:kotlin-osgi-bundle:1.4.0'
+    implementation 'org.osgi:org.osgi.core:6.0.0'
 //    implementation 'org.osgi:org.osgi.service.component.annotations:1.4.0'
-    compileOnly 'org.osgi:osgi.cmpn:7.0.0'
+    implementation 'org.osgi:osgi.cmpn:7.0.0'
 //    compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
 
-    compileOnly 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.yaml:snakeyaml:1.21'
 
 //    compileOnly 'org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.10'
 
@@ -36,10 +37,3 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDirs = ["resources"]
-        }
-    }
-}
