@@ -11,9 +11,14 @@ repositories {
 
 subprojects {
     apply plugin: 'biz.aQute.bnd.builder'
+    apply plugin: 'maven'
 
     if (plugins.hasPlugin('biz.aQute.bnd.builder')) {
         println "### Project ${name} has bnd builder plugin applied"
     }
 
+}
+
+task install() {
+    dependsOn subprojects.install
 }

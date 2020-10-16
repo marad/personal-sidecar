@@ -1,5 +1,6 @@
 pluginManagement {
     plugins {
+        id 'maven'
         id 'biz.aQute.bnd.builder' version '5.2.0'
     }
 }
@@ -8,6 +9,7 @@ include(":template")
 include(":obsidian-vault")
 include(":obsidian-startpage")
 include(":obsidian-webclipper")
+include(":jira")
 
 buildscript {
     repositories {

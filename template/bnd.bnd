@@ -4,3 +4,4 @@
 #
 Bundle-SymbolicName: template
 Bundle-Version: 0.0.1.alpha
+Bundle-Activator: gh.marad.sidecar.template.Activator
