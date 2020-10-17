@@ -8,4 +8,8 @@ interface ObsidianVault {
     fun appendNoteToInbox(note: String)
     fun appendUrlToInbox(url: String, comment: String? = null)
     fun readAllLines(notePath: String): List<String>
+    fun overwriteContents(notePath: String, lines: List<String>) {
+        overwriteContents(notePath, lines.joinToString(separator = System.lineSeparator()))
+    }
+    fun overwriteContents(notePath: String, contents: String)
 }

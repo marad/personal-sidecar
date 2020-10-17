@@ -42,4 +42,8 @@ internal class FilesystemObsidianVault(private val config: Configuration) : Obsi
     override fun readAllLines(notePath: String): List<String> {
         return Files.readAllLines(config.vaultPath.resolve(notePath))
     }
+
+    override fun overwriteContents(notePath: String, contents: String) {
+        Files.write(config.vaultPath.resolve(notePath), contents.toByteArray(charset = Charsets.UTF_8))
+    }
 }

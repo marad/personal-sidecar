@@ -36,4 +36,7 @@ class ObsidianVaultServiceProxy : ObsidianVault {
 
     override fun readAllLines(notePath: String): List<String> =
             proxed.readAllLines(notePath)
+
+    override fun overwriteContents(notePath: String, contents: String) =
+            proxed.overwriteContents(notePath, contents)
 }

@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-osgi-bundle:1.4.0'
+    compileOnly 'org.jetbrains.kotlin:kotlin-osgi-bundle:1.4.0'
     implementation 'org.osgi:org.osgi.core:6.0.0'
 //    implementation 'org.osgi:org.osgi.service.component.annotations:1.4.0'
     implementation 'org.osgi:osgi.cmpn:7.0.0'
