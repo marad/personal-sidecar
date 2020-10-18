@@ -1,19 +1,51 @@
 package gh.marad.sidecar.obsidianvault.flatnote.internal
 
+import gh.marad.sidecar.obsidianvault.flatnote.Block
+import gh.marad.sidecar.obsidianvault.flatnote.Line
 import java.lang.RuntimeException
 
-sealed class Block {
-    data class Empty(val emptyLineCount: Int) : Block()
-    abstract class NonEmpty<T : Line> : Block() {
-        abstract val lines: kotlin.collections.List<T>
+internal class FlatnoteBlockParser {
+    fun parseBlocks(lines: List<Line>): List<Block> {
+        val blocks = mutableListOf<Block>()
+
+        var currentBlockBuilder: BlockBuilder? = null
+
+        lines.forEach { line ->
+            if (currentBlockBuilder == null) {
+                currentBlockBuilder = createBlockBuilder(line)
+            } else {
+                if (currentBlockBuilder!!.canAddLine(line)) {
+                    currentBlockBuilder!!.addLine(line)
+                } else {
+                    blocks.add(currentBlockBuilder!!.build())
+                    currentBlockBuilder = createBlockBuilder(line)
+                }
+            }
+        }
+
+        currentBlockBuilder?.let {
+            blocks.add(it.build())
+        }
+
+        return blocks
     }
-    data class Text(override val lines: kotlin.collections.List<Line.Text>) : NonEmpty<Line.Text>()
-    data class List(override val lines: kotlin.collections.List<Line.ListItem>) : NonEmpty<Line.ListItem>()
-    data class Header(val header: Line.Header) : NonEmpty<Line.Header>() {
-        override val lines = listOf(header)
+
+    private fun createBlockBuilder(line: Line): BlockBuilder {
+        return when(line) {
+            is Line.Empty -> BlockBuilder.EmptyBlockBuilder()
+            is Line.Text -> {
+                if (line.content.startsWith("```")) {
+                    BlockBuilder.CodeBlockBuilder()
+                } else {
+                    BlockBuilder.TextBlockBuilder(line)
+                }
+            }
+            is Line.ListItem -> BlockBuilder.ListBlockBuilder(line)
+            is Line.Header -> BlockBuilder.HeaderBlockBuilder(line)
+            is Line.Quote -> BlockBuilder.QuoteBlockBuilder(line)
+            is Line.NonEmpty -> throw RuntimeException("Invalid block")
+        }
     }
-    data class Quote(override val lines: kotlin.collections.List<Line.Quote>) : NonEmpty<Line.Quote>()
-    data class Code(override val lines: kotlin.collections.List<Line.Text>) : NonEmpty<Line.Text>()
 }
 
 private sealed class BlockBuilder {
@@ -67,50 +99,6 @@ private sealed class BlockBuilder {
             } else {
                 lines.add(codeLine)
             }
-        }
-    }
-}
-
-class FlatnoteBlockParser {
-    fun parseBlocks(lines: List<Line>): List<Block> {
-        val blocks = mutableListOf<Block>()
-
-        var currentBlockBuilder: BlockBuilder? = null
-
-        lines.forEach { line ->
-            if (currentBlockBuilder == null) {
-                currentBlockBuilder = createBlockBuilder(line)
-            } else {
-                if (currentBlockBuilder!!.canAddLine(line)) {
-                    currentBlockBuilder!!.addLine(line)
-                } else {
-                    blocks.add(currentBlockBuilder!!.build())
-                    currentBlockBuilder = createBlockBuilder(line)
-                }
-            }
-        }
-
-        currentBlockBuilder?.let {
-            blocks.add(it.build())
-        }
-
-        return blocks
-    }
-
-    private fun createBlockBuilder(line: Line): BlockBuilder {
-        return when(line) {
-            is Line.Empty -> BlockBuilder.EmptyBlockBuilder()
-            is Line.Text -> {
-                if (line.content.startsWith("```")) {
-                    BlockBuilder.CodeBlockBuilder()
-                } else {
-                    BlockBuilder.TextBlockBuilder(line)
-                }
-            }
-            is Line.ListItem -> BlockBuilder.ListBlockBuilder(line)
-            is Line.Header -> BlockBuilder.HeaderBlockBuilder(line)
-            is Line.Quote -> BlockBuilder.QuoteBlockBuilder(line)
-            is Line.NonEmpty -> throw RuntimeException("Invalid block")
         }
     }
 }

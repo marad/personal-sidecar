@@ -1,6 +1,9 @@
 package gh.marad.sidecar.obsidianvault.flatnote.internal
 
-class FlatnoteRenderer {
+import gh.marad.sidecar.obsidianvault.flatnote.Block
+import gh.marad.sidecar.obsidianvault.flatnote.Line
+
+internal class FlatnoteRenderer {
     fun render(blocks: List<Block>): String {
        val sb = StringBuilder()
         blocks.forEach {

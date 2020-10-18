@@ -1,8 +1,8 @@
 package flatnote.renderer
 
-import gh.marad.sidecar.obsidianvault.flatnote.internal.Block
+import gh.marad.sidecar.obsidianvault.flatnote.Block
 import gh.marad.sidecar.obsidianvault.flatnote.internal.FlatnoteRenderer
-import gh.marad.sidecar.obsidianvault.flatnote.internal.Line
+import gh.marad.sidecar.obsidianvault.flatnote.Line
 import kotlin.test.Test
 import kotlin.test.expect
 

@@ -1,8 +1,6 @@
-package flatnote.blocks
+package flatnote
 
-import gh.marad.sidecar.obsidianvault.flatnote.internal.FlatnoteBlockParser
-import gh.marad.sidecar.obsidianvault.flatnote.internal.FlatnoteLineParser
-import gh.marad.sidecar.obsidianvault.flatnote.internal.FlatnoteRenderer
+import gh.marad.sidecar.obsidianvault.flatnote.FlatnoteConfig
 import kotlin.test.Test
 import kotlin.test.expect
 
@@ -29,8 +27,8 @@ class FlatnoteParseAndRenderSpec {
             another text
         """.trimIndent()
 
-        val blocks = FlatnoteBlockParser().parseBlocks(FlatnoteLineParser().parseLines(markdown.lines()))
-
-        expect(markdown) { FlatnoteRenderer().render(blocks) }
+        val flatnote = FlatnoteConfig().createFlatnote()
+        val blocks = flatnote.parse(markdown)
+        expect(markdown) { flatnote.render(blocks) }
     }
 }
