@@ -11,15 +11,13 @@ internal class FlatnoteBlockParser {
         var currentBlockBuilder: BlockBuilder? = null
 
         lines.forEach { line ->
-            if (currentBlockBuilder == null) {
+            val builder = currentBlockBuilder
+
+            if (builder == null || !builder.canAddLine(line)) {
+                builder?.let { blocks.add(it.build()) }
                 currentBlockBuilder = createBlockBuilder(line)
             } else {
-                if (currentBlockBuilder!!.canAddLine(line)) {
-                    currentBlockBuilder!!.addLine(line)
-                } else {
-                    blocks.add(currentBlockBuilder!!.build())
-                    currentBlockBuilder = createBlockBuilder(line)
-                }
+                builder.addLine(line)
             }
         }
 
