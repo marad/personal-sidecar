@@ -24,6 +24,10 @@ class FlatnoteParseAndRenderSpec {
             code
             ```
             
+            ```python
+            python code
+            ```
+            
             another text
         """.trimIndent()
 

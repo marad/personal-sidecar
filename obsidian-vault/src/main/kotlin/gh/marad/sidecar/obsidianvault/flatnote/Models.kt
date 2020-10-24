@@ -11,7 +11,7 @@ sealed class Block {
         override val lines = listOf(header)
     }
     data class Quote(override val lines: kotlin.collections.List<Line.Quote>) : NonEmpty<Line.Quote>()
-    data class Code(override val lines: kotlin.collections.List<Line.Text>) : NonEmpty<Line.Text>()
+    data class Code(override val lines: kotlin.collections.List<Line.Text>, val language: String?): NonEmpty<Line.Text>()
 }
 
 sealed class Line {

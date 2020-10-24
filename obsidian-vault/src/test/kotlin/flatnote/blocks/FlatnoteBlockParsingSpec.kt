@@ -92,11 +92,22 @@ class FlatnoteBlockParsingSpec {
         expect(Block.Code(listOf(
                 Line.Text("code 1", indent = 0),
                 Line.Text("code 2", indent = 0)
-        ))) {
+        ), language = null)) {
             parseSingleBlock("""
                 ```
                 code 1
                 code 2
+                ```
+            """.trimIndent())
+        }
+
+
+        expect(Block.Code(listOf(
+                Line.Text("python code", indent = 0),
+        ), language = "python")) {
+            parseSingleBlock("""
+                ```python
+                python code
                 ```
             """.trimIndent())
         }
@@ -117,6 +128,10 @@ class FlatnoteBlockParsingSpec {
             code 2
             ```
             
+            ```python
+            python code
+            ```
+            
             > quote 1
             > quote 2
         """.trimIndent()
@@ -134,7 +149,11 @@ class FlatnoteBlockParsingSpec {
                 Block.Code(listOf(
                         Line.Text("code 1", indent = 0),
                         Line.Text("code 2", indent = 0),
-                )),
+                ), language = null),
+                Block.Empty(1),
+                Block.Code(listOf(
+                        Line.Text("python code", indent = 0),
+                ), language = "python"),
                 Block.Empty(1),
                 Block.Quote(listOf(
                         Line.Quote("quote 1"),

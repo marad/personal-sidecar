@@ -39,7 +39,17 @@ class FlatnoteRendererSpec {
             renderSingleBlock(Block.Code(listOf(
                     Line.Text("code 1", indent = 0),
                     Line.Text("code 2", indent = 2),
-            )))
+            ), language = null))
+        }
+
+        expect("""
+            ```python
+            python code
+            ```
+        """.trimIndent()) {
+            renderSingleBlock(Block.Code(listOf(
+                    Line.Text("python code", indent = 0),
+            ), language = "python"))
         }
     }
 
@@ -104,7 +114,7 @@ class FlatnoteRendererSpec {
                     Block.List(listOf(Line.ListItem("list", bullet = "-", indent = 0))),
                     Block.Quote(listOf(Line.Quote("quote"))),
                     Block.Empty(2),
-                    Block.Code(listOf(Line.Text("code", indent = 0)))
+                    Block.Code(listOf(Line.Text("code", indent = 0)), language = null)
             ))
         }
     }

@@ -40,7 +40,7 @@ internal class FlatnoteRenderer {
     }
 
     private fun renderCodeBlock(it: Block.Code, sb: StringBuilder) {
-        sb.appendLine("```")
+        sb.appendLine("```${it.language ?: ""}")
         it.lines.forEach {
             renderTextLine(sb, it)
         }

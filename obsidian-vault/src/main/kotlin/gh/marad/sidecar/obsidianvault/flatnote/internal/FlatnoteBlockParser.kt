@@ -33,7 +33,8 @@ internal class FlatnoteBlockParser {
             is Line.Empty -> BlockBuilder.EmptyBlockBuilder()
             is Line.Text -> {
                 if (line.content.startsWith("```")) {
-                    BlockBuilder.CodeBlockBuilder()
+                    val language = line.content.substring(3).ifBlank { null }
+                    BlockBuilder.CodeBlockBuilder(language)
                 } else {
                     BlockBuilder.TextBlockBuilder(line)
                 }
@@ -85,10 +86,10 @@ private sealed class BlockBuilder {
         override fun addLine(line: Line) { lines.add(line as Line.Quote) }
     }
 
-    class CodeBlockBuilder : BlockBuilder() {
+    class CodeBlockBuilder(private val language: String?) : BlockBuilder() {
         private val lines = mutableListOf<Line.Text>()
         private var acceptModeLines = true
-        override fun build(): Block = Block.Code(lines)
+        override fun build(): Block = Block.Code(lines, language)
         override fun canAddLine(line: Line): Boolean = acceptModeLines && line is Line.Text
         override fun addLine(line: Line) {
             val codeLine = line as Line.Text
