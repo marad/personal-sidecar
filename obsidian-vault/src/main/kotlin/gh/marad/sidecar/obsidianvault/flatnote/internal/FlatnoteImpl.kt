@@ -5,7 +5,11 @@ import gh.marad.sidecar.obsidianvault.flatnote.FlatnoteFacade
 
 class FlatnoteImpl : FlatnoteFacade {
     override fun parse(markdown: String): List<Block> {
-        return FlatnoteBlockParser().parseBlocks(FlatnoteLineParser().parseLines(markdown.lines()))
+        return parse(markdown.lines())
+    }
+
+    override fun parse(markdown: List<String>): List<Block> {
+        return FlatnoteBlockParser().parseBlocks(FlatnoteLineParser().parseLines(markdown))
     }
 
     override fun render(blocks: List<Block>): String {
