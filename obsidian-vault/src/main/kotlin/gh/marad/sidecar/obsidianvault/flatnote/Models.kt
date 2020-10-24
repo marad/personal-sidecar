@@ -12,6 +12,10 @@ sealed class Block {
     }
     data class Quote(override val lines: kotlin.collections.List<Line.Quote>) : NonEmpty<Line.Quote>()
     data class Code(override val lines: kotlin.collections.List<Line.Text>, val language: String?): NonEmpty<Line.Text>()
+    data class Frontmatter(val properties: Map<String, String>) : NonEmpty<Line.Text>() {
+        override val lines: kotlin.collections.List<Line.Text> =
+                properties.toList().map { Line.Text("${it.first}: ${it.second}", indent = 0) }
+    }
 }
 
 sealed class Line {

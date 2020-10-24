@@ -9,6 +9,10 @@ class FlatnoteParseAndRenderSpec {
     @Test
     fun `should render parsed markdown the same way`() {
         val markdown = """
+            ---
+            property: value
+            key: other value
+            ---
             # header
             
             text

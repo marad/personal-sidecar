@@ -96,6 +96,17 @@ class FlatnoteRendererSpec {
     }
 
     @Test
+    fun `should render frontmatter block`() {
+        expect("""
+            ---
+            property: value
+            ---
+        """.trimIndent()) {
+            renderSingleBlock(Block.Frontmatter(mapOf("property" to "value")))
+        }
+    }
+
+    @Test
     fun `should render multiple blocks`() {
         expect("""
             # header

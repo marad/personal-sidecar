@@ -114,8 +114,46 @@ class FlatnoteBlockParsingSpec {
     }
 
     @Test
+    fun `should read frontmatter blocks`() {
+        val block = """
+            ---
+            prop1: value
+            prop2: other value
+            ---
+        """.trimIndent()
+
+        expect(Block.Frontmatter(mapOf(
+                "prop1" to "value",
+                "prop2" to "other value",
+        ))) { parseSingleBlock(block) }
+    }
+
+    @Test
+    fun `should not read frontmatter block in the middle of the document`() {
+        val block = """
+            # header block
+            ---
+            key: value
+            ---
+        """.trimIndent()
+
+        expect(listOf(
+                Block.Header(Line.Header("header block", level = 1)),
+                Block.Text(listOf(
+                        Line.Text("---", indent = 0),
+                        Line.Text("key: value", indent = 0),
+                        Line.Text("---", indent = 0),
+        )))) {
+            parseBlocks(block)
+        }
+    }
+
+    @Test
     fun `should read multiple blocks`() {
         val content = """
+            ---
+            key: value
+            ---
             # header 1
             ## header 2
             simple text
@@ -137,6 +175,7 @@ class FlatnoteBlockParsingSpec {
         """.trimIndent()
 
         expect(listOf(
+                Block.Frontmatter(mapOf("key" to "value")),
                 Block.Header(Line.Header("header 1", level = 1)),
                 Block.Header(Line.Header("header 2", level = 2)),
                 Block.Text(listOf(Line.Text("simple text", indent = 0))),

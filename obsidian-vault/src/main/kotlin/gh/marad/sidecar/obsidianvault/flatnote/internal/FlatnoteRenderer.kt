@@ -19,18 +19,12 @@ internal class FlatnoteRenderer {
         is Block.Quote -> renderQuoteBlock(it, sb)
         is Block.List -> renderListBlock(it, sb)
         is Block.Header -> renderHeaderBlock(it, sb)
+        is Block.Frontmatter -> renderFrontmatterBlock(it, sb)
         is Block.NonEmpty<*> -> TODO()
     }
 
     private fun renderTextBlock(it: Block.Text, sb: StringBuilder) {
-        it.lines.forEach {
-            renderTextLine(sb, it)
-        }
-    }
-
-    private fun renderTextLine(sb: StringBuilder, it: Line.Text) {
-        sb.append(" ".repeat(it.indent))
-        sb.appendLine(it.content)
+        renderLinesInNonEmptyTextBlock(it, sb)
     }
 
     private fun renderEmptyBlock(it: Block.Empty, sb: StringBuilder) {
@@ -41,9 +35,7 @@ internal class FlatnoteRenderer {
 
     private fun renderCodeBlock(it: Block.Code, sb: StringBuilder) {
         sb.appendLine("```${it.language ?: ""}")
-        it.lines.forEach {
-            renderTextLine(sb, it)
-        }
+        renderLinesInNonEmptyTextBlock(it, sb)
         sb.appendLine("```")
     }
 
@@ -67,5 +59,22 @@ internal class FlatnoteRenderer {
         sb.append("#".repeat(it.header.level))
         sb.append(" ")
         sb.appendLine(it.header.content)
+    }
+
+    private fun renderFrontmatterBlock(it: Block.Frontmatter, sb: StringBuilder) {
+        sb.appendLine("---")
+        renderLinesInNonEmptyTextBlock(it, sb)
+        sb.appendLine("---")
+    }
+
+    private fun renderLinesInNonEmptyTextBlock(it: Block.NonEmpty<Line.Text>, sb: StringBuilder) {
+        it.lines.forEach {
+            renderTextLine(sb, it)
+        }
+    }
+
+    private fun renderTextLine(sb: StringBuilder, it: Line.Text) {
+        sb.append(" ".repeat(it.indent))
+        sb.appendLine(it.content)
     }
 }

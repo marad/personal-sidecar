@@ -15,7 +15,7 @@ internal class FlatnoteBlockParser {
 
             if (builder == null || !builder.canAddLine(line)) {
                 builder?.let { blocks.add(it.build()) }
-                currentBlockBuilder = createBlockBuilder(line)
+                currentBlockBuilder = createBlockBuilder(line, isFirstLine = blocks.isEmpty())
             } else {
                 builder.addLine(line)
             }
@@ -28,15 +28,21 @@ internal class FlatnoteBlockParser {
         return blocks
     }
 
-    private fun createBlockBuilder(line: Line): BlockBuilder {
+    private fun createBlockBuilder(line: Line, isFirstLine: Boolean): BlockBuilder {
         return when(line) {
             is Line.Empty -> BlockBuilder.EmptyBlockBuilder()
             is Line.Text -> {
-                if (line.content.startsWith("```")) {
-                    val language = line.content.substring(3).ifBlank { null }
-                    BlockBuilder.CodeBlockBuilder(language)
-                } else {
-                    BlockBuilder.TextBlockBuilder(line)
+                when {
+                    line.content.startsWith("```") -> {
+                        val language = line.content.substring(3).ifBlank { null }
+                        BlockBuilder.CodeBlockBuilder(language)
+                    }
+                    isFirstLine && line.content.startsWith("---") -> {
+                        BlockBuilder.FrontmatterBlockBuilder()
+                    }
+                    else -> {
+                        BlockBuilder.TextBlockBuilder(line)
+                    }
                 }
             }
             is Line.ListItem -> BlockBuilder.ListBlockBuilder(line)
@@ -98,6 +104,30 @@ private sealed class BlockBuilder {
             } else {
                 lines.add(codeLine)
             }
+        }
+    }
+
+    class FrontmatterBlockBuilder : BlockBuilder() {
+        private val lines = mutableListOf<Line.Text>()
+        private var acceptLines = true
+        override fun build(): Block = Block.Frontmatter(lines.map { readProperty(it.content) }.toMap())
+        override fun canAddLine(line: Line): Boolean = acceptLines && line is Line.Text
+        override fun addLine(line: Line) {
+            val propertyLine = line as Line.Text
+            if (propertyLine.content == "---") {
+                acceptLines = false
+            } else {
+                lines.add(propertyLine)
+            }
+        }
+
+        private fun readProperty(it: String): Pair<String, String> {
+            val (key, value) = it.split(FRONTMATTER_PROPERTY_SPLIT_REGEX, limit = 2)
+            return Pair(key, value)
+        }
+
+        companion object {
+            private val FRONTMATTER_PROPERTY_SPLIT_REGEX = "\\s*:\\s*".toRegex()
         }
     }
 }
