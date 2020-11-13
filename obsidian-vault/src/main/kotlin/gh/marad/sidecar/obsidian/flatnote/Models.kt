@@ -1,4 +1,4 @@
-package gh.marad.sidecar.obsidianvault.flatnote
+package gh.marad.sidecar.obsidian.flatnote
 
 sealed class Block {
     data class Empty(val emptyLineCount: Int) : Block()

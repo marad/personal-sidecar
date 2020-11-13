@@ -1,8 +1,8 @@
 #
 #   SIDECAR MARKDOWN
 #
--exportcontents: gh.marad.sidecar.obsidianvault.*
+-exportcontents: gh.marad.sidecar.obsidian.*
 -dsannotations: *
 Bundle-SymbolicName: obsidian-vault
 Bundle-Version: 0.0.1.alpha
-#Import-Package: !gh.marad.sidecar.obsidianvault.*, *
+#Import-Package: !gh.marad.sidecar.obsidian.*, *

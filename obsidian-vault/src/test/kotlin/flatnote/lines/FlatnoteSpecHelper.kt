@@ -1,7 +1,7 @@
 package flatnote.lines
 
-import gh.marad.sidecar.obsidianvault.flatnote.internal.FlatnoteLineParser
-import gh.marad.sidecar.obsidianvault.flatnote.Line
+import gh.marad.sidecar.obsidian.flatnote.internal.FlatnoteLineParser
+import gh.marad.sidecar.obsidian.flatnote.Line
 
 fun parseSingleLine(line: String): Line {
     return FlatnoteLineParser().parseLines(listOf(line)).first()

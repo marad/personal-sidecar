@@ -1,6 +1,6 @@
-package gh.marad.sidecar.obsidianvault.flatnote.internal
+package gh.marad.sidecar.obsidian.flatnote.internal
 
-import gh.marad.sidecar.obsidianvault.flatnote.Line
+import gh.marad.sidecar.obsidian.flatnote.Line
 
 private val HeaderRegex = "^#+\\s+.*".toRegex()
 private val QuoteRegex = "^>.*".toRegex()

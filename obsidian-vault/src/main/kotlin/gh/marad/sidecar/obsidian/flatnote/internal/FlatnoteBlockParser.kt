@@ -1,7 +1,7 @@
-package gh.marad.sidecar.obsidianvault.flatnote.internal
+package gh.marad.sidecar.obsidian.flatnote.internal
 
-import gh.marad.sidecar.obsidianvault.flatnote.Block
-import gh.marad.sidecar.obsidianvault.flatnote.Line
+import gh.marad.sidecar.obsidian.flatnote.Block
+import gh.marad.sidecar.obsidian.flatnote.Line
 import java.lang.RuntimeException
 
 internal class FlatnoteBlockParser {

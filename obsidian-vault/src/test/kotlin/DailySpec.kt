@@ -1,8 +1,8 @@
 import com.google.common.jimfs.Configuration as FsConfig
 import com.google.common.jimfs.Jimfs
-import gh.marad.sidecar.obsidianvault.FilesystemObsidianVault
-import gh.marad.sidecar.obsidianvault.ObsidianVault
-import gh.marad.sidecar.obsidianvault.app.Configuration
+import gh.marad.sidecar.obsidian.vault.internal.FilesystemObsidianVault
+import gh.marad.sidecar.obsidian.vault.ObsidianVault
+import gh.marad.sidecar.obsidian.vault.internal.Configuration
 import java.nio.file.FileSystem
 import java.nio.file.Files
 import java.time.LocalDate

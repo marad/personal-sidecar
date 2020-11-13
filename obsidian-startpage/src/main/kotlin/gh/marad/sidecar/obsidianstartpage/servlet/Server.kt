@@ -1,6 +1,6 @@
 package gh.marad.sidecar.obsidianstartpage.servlet
 
-import gh.marad.sidecar.obsidianvault.ObsidianVault
+import gh.marad.sidecar.obsidian.vault.ObsidianVault
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.commonmark.parser.Parser

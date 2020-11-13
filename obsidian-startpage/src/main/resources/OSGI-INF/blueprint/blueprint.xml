@@ -9,7 +9,7 @@
              http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd
              ">
 
-    <reference id="obsidianVaultRef" interface="gh.marad.sidecar.obsidianvault.ObsidianVault"/>
+    <reference id="obsidianVaultRef" interface="gh.marad.sidecar.obsidian.vault.ObsidianVault"/>
 
     <bean id="helloService" class="gh.marad.sidecar.obsidianstartpage.cxf.HelloService">
         <property name="obsidianVault" ref="obsidianVaultRef"/>

@@ -1,6 +1,6 @@
 package flatnote
 
-import gh.marad.sidecar.obsidianvault.flatnote.FlatnoteConfig
+import gh.marad.sidecar.obsidian.flatnote.FlatnoteConfig
 import kotlin.test.Test
 import kotlin.test.expect
 

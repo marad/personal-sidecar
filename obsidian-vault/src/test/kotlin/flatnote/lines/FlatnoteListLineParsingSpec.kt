@@ -1,6 +1,6 @@
 package flatnote.lines
 
-import gh.marad.sidecar.obsidianvault.flatnote.Line
+import gh.marad.sidecar.obsidian.flatnote.Line
 import kotlin.test.Test
 import kotlin.test.expect
 

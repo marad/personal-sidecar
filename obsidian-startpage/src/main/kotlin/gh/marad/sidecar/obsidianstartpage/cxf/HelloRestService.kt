@@ -1,6 +1,6 @@
 package gh.marad.sidecar.obsidianstartpage.cxf
 
-import gh.marad.sidecar.obsidianvault.ObsidianVault
+import gh.marad.sidecar.obsidian.vault.ObsidianVault
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.Produces

@@ -1,6 +1,10 @@
-package gh.marad.sidecar.obsidianvault
+package gh.marad.sidecar.obsidian.vault.infra
 
-import gh.marad.sidecar.obsidianvault.app.Configuration
+import gh.marad.sidecar.obsidian.Constants
+import gh.marad.sidecar.obsidian.vault.Inbox
+import gh.marad.sidecar.obsidian.vault.internal.Configuration
+import gh.marad.sidecar.obsidian.vault.ObsidianVault
+import gh.marad.sidecar.obsidian.vault.internal.FilesystemObsidianVault
 import org.osgi.service.cm.ConfigurationAdmin
 import org.osgi.service.component.annotations.Activate
 import org.osgi.service.component.annotations.Component
@@ -25,14 +29,11 @@ class ObsidianVaultServiceProxy : ObsidianVault {
 
     override fun dailyNoteExists(day: LocalDate)
             = proxed.dailyNoteExists(day)
+
     override fun createDailyNoteFromTemplate(day: LocalDate)
             = proxed.createDailyNoteFromTemplate(day)
 
-    override fun appendNoteToInbox(note: String)
-            = proxed.appendNoteToInbox(note)
-
-    override fun appendUrlToInbox(url: String, comment: String?)
-            = proxed.appendUrlToInbox(url, comment)
+    override fun inbox(): Inbox = proxed.inbox()
 
     override fun readAllLines(notePath: String): List<String> =
             proxed.readAllLines(notePath)

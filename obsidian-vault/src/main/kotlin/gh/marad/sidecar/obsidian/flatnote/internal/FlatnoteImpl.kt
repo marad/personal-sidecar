@@ -1,7 +1,7 @@
-package gh.marad.sidecar.obsidianvault.flatnote.internal
+package gh.marad.sidecar.obsidian.flatnote.internal
 
-import gh.marad.sidecar.obsidianvault.flatnote.Block
-import gh.marad.sidecar.obsidianvault.flatnote.FlatnoteFacade
+import gh.marad.sidecar.obsidian.flatnote.Block
+import gh.marad.sidecar.obsidian.flatnote.FlatnoteFacade
 
 class FlatnoteImpl : FlatnoteFacade {
     override fun parse(markdown: String): List<Block> {

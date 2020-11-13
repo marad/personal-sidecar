@@ -1,8 +1,10 @@
 import com.google.common.jimfs.Configuration as FsConfig
 import com.google.common.jimfs.Jimfs
-import gh.marad.sidecar.obsidianvault.FilesystemObsidianVault
-import gh.marad.sidecar.obsidianvault.ObsidianVault
-import gh.marad.sidecar.obsidianvault.app.Configuration
+import gh.marad.sidecar.obsidian.vault.internal.FilesystemObsidianVault
+import gh.marad.sidecar.obsidian.vault.ObsidianVault
+import gh.marad.sidecar.obsidian.vault.internal.Configuration
+import org.hamcrest.CoreMatchers
+import org.junit.Assert
 import org.junit.Test
 import java.nio.file.FileSystem
 import java.nio.file.Files
@@ -12,7 +14,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.expect
 
 class InboxSpec {
-    private val nl = System.lineSeparator()!!
+    private val nl = "\n"
     private lateinit var fs: FileSystem
     private lateinit var inboxPath: Path
     private lateinit var vault: ObsidianVault
@@ -34,7 +36,9 @@ class InboxSpec {
         // given
         setInboxContent("- existing")
         // when
-        vault.appendUrlToInbox("http://github.com", null)
+        vault.inbox().updateContent {
+            appendUrl("http://github.com", null)
+        }
         // then
         expectToBeMarkedForClearing()
         expectThatInboxContainsContent(
@@ -46,7 +50,9 @@ class InboxSpec {
         // given
         setInboxContent("- existing")
         // when
-        vault.appendUrlToInbox("http://github.com", "Fun VCS")
+        vault.inbox().updateContent {
+            appendUrl("http://github.com", "Fun VCS")
+        }
         // then
         expectToBeMarkedForClearing()
         expectThatInboxContainsContent(
@@ -58,21 +64,21 @@ class InboxSpec {
         // given
         setInboxContent("- existing")
         // when
-        vault.appendNoteToInbox("Some note")
+        vault.inbox().updateContent {
+            appendNote("Some note")
+        }
         // then
         expectToBeMarkedForClearing()
         expectThatInboxContainsContent("- existing$nl- Some note")
     }
 
     private fun expectToBeMarkedForClearing() {
-        expectThatInboxContainsContent("#task Wyczyścić inbox")
+        expectThatInboxContainsContent("#task")
     }
 
     private fun expectThatInboxContainsContent(expectedContent: String) {
-        expect(true) {
-            val content = String(Files.readAllBytes(inboxPath)).trim()
-            content.contains(expectedContent)
-        }
+        val content = String(Files.readAllBytes(inboxPath)).trim()
+        Assert.assertThat(content, CoreMatchers.containsString(expectedContent))
     }
 
     private fun setInboxContent(content: String) {

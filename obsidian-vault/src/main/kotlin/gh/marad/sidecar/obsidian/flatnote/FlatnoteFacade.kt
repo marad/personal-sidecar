@@ -1,4 +1,4 @@
-package gh.marad.sidecar.obsidianvault.flatnote
+package gh.marad.sidecar.obsidian.flatnote
 
 interface FlatnoteFacade {
     fun parse(markdown: String): List<Block>

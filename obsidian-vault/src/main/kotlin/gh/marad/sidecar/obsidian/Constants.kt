@@ -1,4 +1,4 @@
-package gh.marad.sidecar.obsidianvault
+package gh.marad.sidecar.obsidian
 
 object Constants {
     val CONFIG_PID = "io.github.marad.obsidianVault"

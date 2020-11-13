@@ -1,4 +1,4 @@
-package gh.marad.sidecar.obsidianvault.app
+package gh.marad.sidecar.obsidian.vault.internal
 
 import java.nio.file.Files
 import java.nio.file.Path

@@ -1,8 +1,7 @@
-package gh.marad.sidecar.obsidianvault
+package gh.marad.sidecar.obsidian.vault.internal
 
-import gh.marad.sidecar.obsidianvault.app.Configuration
-import gh.marad.sidecar.obsidianvault.app.DailyNote
-import gh.marad.sidecar.obsidianvault.app.Inbox
+import gh.marad.sidecar.obsidian.vault.Inbox
+import gh.marad.sidecar.obsidian.vault.ObsidianVault
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.time.LocalDate
@@ -25,19 +24,7 @@ internal class FilesystemObsidianVault(private val config: Configuration) : Obsi
         dailyNote.create()
     }
 
-    override fun appendNoteToInbox(note: String) {
-        Inbox(config.inboxPath).apply {
-            appendNote(note)
-            markForClearing()
-        }
-    }
-
-    override fun appendUrlToInbox(url: String, comment: String?) {
-        Inbox(config.inboxPath).apply {
-            appendUrl(url, comment)
-            markForClearing()
-        }
-    }
+    override fun inbox(): Inbox = Inbox(config.inboxPath)
 
     override fun readAllLines(notePath: String): List<String> {
         return Files.readAllLines(config.vaultPath.resolve(notePath))

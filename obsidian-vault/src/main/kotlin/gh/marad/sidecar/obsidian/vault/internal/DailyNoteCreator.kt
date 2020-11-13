@@ -1,32 +1,17 @@
-package gh.marad.sidecar.obsidianvault
+package gh.marad.sidecar.obsidian.vault.internal
 
-import org.osgi.service.component.annotations.Activate
-import org.osgi.service.component.annotations.Component
-import org.osgi.service.component.annotations.Deactivate
-import org.osgi.service.component.annotations.Reference
+import gh.marad.sidecar.obsidian.vault.ObsidianVault
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
 
-@Component
-class DailyNoteCreator {
-    private var timer: Timer? = null
-
-    @Reference
-    private var obsidianVault: ObsidianVault? = null
-
-    @Activate
-    fun setup() {
-        timer = Timer()
-        timer?.scheduleAtFixedRate(CreateDailyNoteTask(
-                timer!!, obsidianVault ?: throw RuntimeException("There is no obsidian vault service!")
-        ), 0, 1000)
+internal class DailyNoteCreator(private val obsidianVault: ObsidianVault) {
+    private val timer: Timer = Timer().also {
+        it.scheduleAtFixedRate(CreateDailyNoteTask(it, obsidianVault), 0, 1000)
     }
 
-    @Deactivate
-    fun teardown() {
-        timer?.cancel()
-        timer = null
+    fun stop() {
+        timer.cancel()
     }
 
     private class CreateDailyNoteTask(

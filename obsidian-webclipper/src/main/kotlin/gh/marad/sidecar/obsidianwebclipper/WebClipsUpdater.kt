@@ -1,6 +1,6 @@
 package gh.marad.sidecar.obsidianwebclipper
 
-import gh.marad.sidecar.obsidianvault.ObsidianVault
+import gh.marad.sidecar.obsidian.vault.ObsidianVault
 import org.osgi.service.cm.ConfigurationAdmin
 import org.osgi.service.component.annotations.Activate
 import org.osgi.service.component.annotations.Component
@@ -26,10 +26,7 @@ class WebClipsUpdater {
 
     @Activate
     fun init() {
-        val configuration = configAdmin.getConfiguration(Constants.CONFIG_PID)
-        val accessToken = (configuration.properties[CONFIG_ACCESS_TOKEN]
-                ?: throw RuntimeException("Access token is required for web clipper to work!")) as String
-        val client = PushbulletClient("https://api.pushbullet.com", accessToken)
+        val client = PushbulletClient("https://api.pushbullet.com", readPushbulletAccessTokenFromConfig())
         clipper = WebClipperConfig().createPushbulletWebClipper(client)
         timer.scheduleAtFixedRate(updateTask, START_NOW, TEN_MINUTES)
     }
@@ -45,18 +42,30 @@ class WebClipsUpdater {
         val notes = clipper.fetchNotes(syncMarker.toString())
 
         log.info("Fetched ${links.size} links and ${notes.size} notes.")
-        links.forEach { obsidianVault?.appendUrlToInbox(it.url, it.content) }
-        notes .forEach {
-            if (it.content != null) {
-                obsidianVault?.appendNoteToInbox(it.content)
-            } else if (it.title != null) {
-                obsidianVault?.appendNoteToInbox(it.title)
-            }
-        }
+        saveLinksAndNotesToInbox(links, notes)
 
         val properties = configuration.properties
         properties.put(CONFIG_SYNC_MARKER, newSyncMarker)
         configuration.update(properties)
+    }
+
+    private fun saveLinksAndNotesToInbox(links: List<WebClipper.LinkClip>, notes: List<WebClipper.NoteClip>) {
+        obsidianVault?.inbox()?.updateContent {
+            links.forEach { appendUrl(it.url, it.content) }
+            notes.forEach {
+                if (it.content != null) {
+                    appendNote(it.content)
+                } else if (it.title != null) {
+                    appendUrl(it.title)
+                }
+            }
+        }
+    }
+
+    private fun readPushbulletAccessTokenFromConfig(): String {
+        val configuration = configAdmin.getConfiguration(Constants.CONFIG_PID)
+        return (configuration.properties[CONFIG_ACCESS_TOKEN]
+                ?: throw RuntimeException("Access token is required for web clipper to work!")) as String
     }
 
     @Deactivate
