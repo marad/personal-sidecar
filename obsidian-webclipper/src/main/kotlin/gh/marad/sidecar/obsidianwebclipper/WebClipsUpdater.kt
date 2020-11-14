@@ -33,24 +33,16 @@ class WebClipsUpdater {
 
     private val updateTask = timerTask {
         log.info("Fetching web clipper contents...")
-        val configuration = configAdmin.getConfiguration(Constants.CONFIG_PID)
-        val newSyncMarker = Instant.now(Clock.systemUTC()).epochSecond
-        val syncMarker = (configuration.properties[CONFIG_SYNC_MARKER]
-                ?: newSyncMarker) as Long
 
-        val links = clipper.fetchLinks(syncMarker.toString())
-        val notes = clipper.fetchNotes(syncMarker.toString())
-
-        log.info("Fetched ${links.size} links and ${notes.size} notes.")
-        saveLinksAndNotesToInbox(links, notes)
-
-        val properties = configuration.properties
-        properties.put(CONFIG_SYNC_MARKER, newSyncMarker)
-        configuration.update(properties)
-    }
-
-    private fun saveLinksAndNotesToInbox(links: List<WebClipper.LinkClip>, notes: List<WebClipper.NoteClip>) {
         obsidianVault?.inbox()?.updateContent {
+            val newSyncMarker = Instant.now(Clock.systemUTC()).epochSecond
+            val syncMarker = lastUpdateTime()
+
+            val links = clipper.fetchLinks(syncMarker.toString())
+            val notes = clipper.fetchNotes(syncMarker.toString())
+
+            log.info("Fetched ${links.size} links and ${notes.size} notes.")
+
             links.forEach { appendUrl(it.url, it.content) }
             notes.forEach {
                 if (it.content != null) {
@@ -59,6 +51,8 @@ class WebClipsUpdater {
                     appendUrl(it.title)
                 }
             }
+
+            setLastUpdateTime(newSyncMarker)
         }
     }
 
@@ -77,6 +71,5 @@ class WebClipsUpdater {
         const val START_NOW = 0L
         const val TEN_MINUTES = 10 * 60 * 1000L
         const val CONFIG_ACCESS_TOKEN = "pushbullet.accessToken"
-        const val CONFIG_SYNC_MARKER = "pushbullet.syncMarker"
     }
 }
