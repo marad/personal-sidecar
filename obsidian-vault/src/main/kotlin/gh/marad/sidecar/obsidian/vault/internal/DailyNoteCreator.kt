@@ -7,7 +7,7 @@ import java.util.*
 
 internal class DailyNoteCreator(private val obsidianVault: ObsidianVault) {
     private val timer: Timer = Timer().also {
-        it.scheduleAtFixedRate(CreateDailyNoteTask(it, obsidianVault), 0, 1000)
+//        it.scheduleAtFixedRate(CreateDailyNoteTask(it, obsidianVault), 0, 1000)
     }
 
     fun stop() {
